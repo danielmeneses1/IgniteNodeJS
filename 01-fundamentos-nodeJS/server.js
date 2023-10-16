@@ -1,18 +1,25 @@
+
+
+
 import http, { get } from 'node:http';
 
+const users = []
 
 const server = http.createServer((req, res) => {
     const {method, url} = req;
     if(method === 'GET' && url === '/users'){
-        return res.end('Listagem de usuários')
+        return res.end(JSON.stringify(users));
     }
     if(method === 'POST' && url === '/users'){
-        return res.end('Criacao de usuários')
+        users.push({
+            nome: 'Diego',
+            email: 'Diego@gmail.com',
+            id: '1'
+        });
+        return res.setHeader('Content-type', 'application/json').writeHead(201).end();
     }
 
-return res.end('Hello World')
-  
-})
+    return res.writeHead(404).end('Not Found');
+});
 
 server.listen(3333)
-
